@@ -55,7 +55,7 @@ echo '
 # Otomatis menjalankan GitHub Codespace saat masuk
 if command -v gh &> /dev/null; then
     echo "Memulai GitHub Codespace..."
-    codespace_name=$(gh codespace list | grep Available | awk '\''{print $1}'\'' | head -n 1)
+    codespace_name=$(gh codespace list | grep -E 'Available|Shutdown' | awk '{print $1}' | head -n 1)
     if [ -n "$codespace_name" ]; then
         echo "Mengakses Codespace: $codespace_name"
         gh codespace ssh --codespace "$codespace_name" -- -tt
