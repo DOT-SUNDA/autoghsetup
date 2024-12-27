@@ -4,7 +4,7 @@ TOKEN=$0
 
 # Pastikan token diberikan sebagai argumen
 if [ -z "$TOKEN" ]; then
-    echo "Token GitHub tidak diberikan. Jalankan script dengan: $0 <GitHub_Token>"
+    echo "Token GitHub tidak diberikan"
     exit 1
 fi
 
