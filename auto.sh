@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOKEN=$1
+TOKEN=$0
 
 # Pastikan token diberikan sebagai argumen
 if [ -z "$TOKEN" ]; then
