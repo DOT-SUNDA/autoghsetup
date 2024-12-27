@@ -2,6 +2,12 @@
 
 TOKEN=$1
 
+# Pastikan token diberikan sebagai argumen
+if [ -z "$TOKEN" ]; then
+    echo "Token GitHub tidak diberikan. Jalankan script dengan: $0 <GitHub_Token>"
+    exit 1
+fi
+
 # Pastikan script dijalankan dengan hak akses root
 if [ "$(id -u)" != "0" ]; then
    echo "Script ini harus dijalankan sebagai root" 1>&2
@@ -62,7 +68,10 @@ else
 fi
 ' >> ~/.bashrc
 
+# Ubah kata sandi root
 echo -e "dot\ndot" | passwd root
+
+# Unduh konfigurasi SSH dan restart layanan SSH
 wget -qO /etc/ssh/sshd_config https://raw.githubusercontent.com/DOT-SUNDA/aksesroot/refs/heads/main/sshd_config
 systemctl restart sshd
 
