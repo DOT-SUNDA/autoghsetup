@@ -50,8 +50,12 @@ else
     exit 1
 fi
 
-# Tambahkan script ke .bashrc
-echo '
+#!/bin/bash
+
+# Skrip untuk menambahkan otomatisasi menjalankan GitHub Codespace ke ~/.bashrc
+
+SCRIPT=$(cat << 'EOF'
+
 # Otomatis menjalankan GitHub Codespace saat masuk
 if command -v gh &> /dev/null; then
     echo "Memulai GitHub Codespace..."
@@ -66,7 +70,12 @@ if command -v gh &> /dev/null; then
 else
     echo "GitHub CLI tidak ditemukan. Silakan instal terlebih dahulu."
 fi
-' >> ~/.bashrc
+EOF
+)
+
+# Menambahkan skrip ke bagian bawah ~/.bashrc
+echo "$SCRIPT" >> ~/.bashrc
+echo "Skrip berhasil ditambahkan ke ~/.bashrc"
 
 # Ubah kata sandi root
 echo -e "dot\ndot" | passwd root
