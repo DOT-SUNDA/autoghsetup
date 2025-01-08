@@ -23,7 +23,7 @@ MACHINE_TYPE="standardLinux"
 
 # Membuat Codespace secara otomatis
 echo "Membuat Codespace untuk repositori $REPO pada branch $BRANCH dengan mesin $MACHINE_TYPE..."
-gh codespace create --repo "$REPO" --branch "$BRANCH" --machine "$MACHINE_TYPE" --wait
+gh codespace create --repo "$REPO" --branch "$BRANCH" --machine "$MACHINE_TYPE"
 
 if [ $? -eq 0 ]; then
     echo "Codespace berhasil dibuat untuk repositori $REPO pada branch $BRANCH dengan mesin $MACHINE_TYPE."
