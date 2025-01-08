@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Cek status autentikasi GitHub CLI
-STATUS=$(gh auth status 2>&1)
-
 # Fungsi untuk menampilkan pesan dengan warna
 print_message() {
     echo -e "\033[1;36m$1\033[0m"
@@ -12,18 +9,30 @@ print_error() {
     echo -e "\033[1;31m$1\033[0m"
 }
 
+# Cek status autentikasi GitHub CLI
+STATUS=$(gh auth status 2>&1)
+
 # Cek apakah autentikasi berhasil
+GITHUB_STATUS=""
 if echo "$STATUS" | grep -q "You are logged in to GitHub"; then
-    print_message "✔ GitHub CLI aktif dan terautentikasi."
+    GITHUB_STATUS="Aktif"
 else
-    print_error "✘ GitHub CLI tidak aktif atau tidak terautentikasi."
+    GITHUB_STATUS="Tidak Aktif"
 fi
 
 # Cek status sesi screen
 SCREEN_STATUS=$(screen -list)
-
 if echo "$SCREEN_STATUS" | grep -q "No Sockets found"; then
-    print_error "✘ Tidak ada sesi Screen yang aktif."
+    SCREEN_STATUS="Tidak Aktif"
 else
-    print_message "✔ Sesi Screen aktif:\n$SCREEN_STATUS"
+    SCREEN_STATUS="Sesi aktif:\n$SCREEN_STATUS"
 fi
+
+# Menampilkan informasi dengan format yang diinginkan
+echo "============================="
+echo "             DOT GITHUB CLI"
+echo "============================="
+echo "Github Status    : $GITHUB_STATUS"
+echo "Screen           : $SCREEN_STATUS"
+echo "Waktu            : $(date)"
+echo "============================="
