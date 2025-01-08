@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# Fungsi untuk menampilkan pesan dengan warna biru
 print_message() {
     echo -e "\033[1;36m$1\033[0m"
 }
 
+# Fungsi untuk menampilkan pesan error dengan warna merah
 print_error() {
     echo -e "\033[1;31m$1\033[0m"
 }
@@ -19,31 +21,43 @@ else
     GITHUB_STATUS="Tidak Aktif"
 fi
 
-SCREEN_STATUS=$(screen -list | grep -oP '\d+\.\S+')
+# Fungsi untuk cek status screen
+check_screen_status() {
+    SCREEN_STATUS=$(screen -list | grep -oP '\d+\.\S+')
 
-if [ -z "$SCREEN_STATUS" ]; then
-    SCREEN_STATUS="Tidak Aktif"
-else
-    SCREEN_STATUS="Sesi aktif:\n$SCREEN_STATUS"
-fi
-# urlnya
+    if [ -z "$SCREEN_STATUS" ]; then
+        SCREEN_STATUS="Tidak Aktif"
+    else
+        SCREEN_STATUS="Sesi aktif:\n$SCREEN_STATUS"
+    fi
+}
+
+# URL untuk script
 URLGH="https://raw.githubusercontent.com/DOT-SUNDA/autoghsetup/refs/heads/main"
-# Menampilkan informasi dengan format yang diinginkan
+
+# Menampilkan informasi dengan format yang lebih modern
 while true; do
-echo "============================="
-echo "  MENU GITHUB CLI BY DOTAJA"
-echo "============================="
-echo "Github Status    : $GITHUB_STATUS"
-echo "Screen           : $SCREEN_STATUS"
-echo "Waktu            : $(date)"
-echo "============================="
-echo "1.RunDOT01         2.RunDOT02"
-echo "3.CekDOT01         4.CekDOT02"
-echo "5.Auth-GH          6.Logout-GH"
-echo "7.AllStop          8.Exit"
-echo "============================="
-read -p "Pilih menu [1-8]: " option
-case $option in
+    # Refresh status screen
+    check_screen_status
+
+    # Tampilan header
+    clear
+    echo -e "\033[1;32m=============================\033[0m"
+    echo -e "\033[1;32m   MENU GITHUB CLI BY DOTAJA  \033[0m"
+    echo -e "\033[1;32m=============================\033[0m"
+    echo -e "\033[1;37mGithub Status    : \033[1;34m$GITHUB_STATUS\033[0m"
+    echo -e "\033[1;37mScreen           : \033[1;34m$SCREEN_STATUS\033[0m"
+    echo -e "\033[1;37mWaktu            : \033[1;34m$(date)\033[0m"
+    echo -e "\033[1;32m=============================\033[0m"
+    echo -e "\033[1;36m1. RunDOT01         2. RunDOT02\033[0m"
+    echo -e "\033[1;36m3. CekDOT01         4. CekDOT02\033[0m"
+    echo -e "\033[1;36m5. Auth-GH          6. Logout-GH\033[0m"
+    echo -e "\033[1;36m7. AllStop          8. Exit\033[0m"
+    echo -e "\033[1;32m=============================\033[0m"
+    
+    # Pilihan menu dengan efek input
+    read -p "Pilih menu [1-8]: " option
+    case $option in
         1)
             screen -dmS DOT01 bash -c "$(wget -qO- $URLGH/Run01.sh)"
             ;;
@@ -58,22 +72,25 @@ case $option in
             ;;
         5)
             clear
-            read -p "Masukan Token Bro!!!: " TOKEN
+            print_message "Masukan Token GitHub Anda:"
+            read -p "Token: " TOKEN
             bash -c "$(wget -qO- $URLGH/AuthNoRoot.sh)" $TOKEN
             ;;
         6)
             gh auth logout
+            print_message "Anda telah logout dari GitHub."
             ;;
         7)
             screen -S "DOT01" -X quit
             screen -S "DOT02" -X quit
+            print_message "Semua sesi dihentikan."
             ;;
         8)
-            echo "Keluar..."
+            echo -e "\033[1;31mKeluar...\033[0m"
             exit 0
             ;;
         *)
-            echo "Pilihan tidak valid!"
+            print_error "Pilihan tidak valid! Silakan pilih angka antara 1-8."
             ;;
     esac
     echo ""
