@@ -14,7 +14,7 @@ STATUS=$(gh auth status 2>&1)
 
 # Cek apakah autentikasi berhasil
 GITHUB_STATUS=""
-if echo "$STATUS" | grep -q "You are logged in to GitHub"; then
+if echo "$STATUS" | grep -q "Logged in to github.com"; then
     GITHUB_STATUS="Aktif"
 else
     GITHUB_STATUS="Tidak Aktif"
