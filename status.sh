@@ -20,9 +20,9 @@ else
     GITHUB_STATUS="Tidak Aktif"
 fi
 
-# Cek status sesi screen
-SCREEN_STATUS=$(screen -list)
-if echo "$SCREEN_STATUS" | grep -q "No Sockets found"; then
+SCREEN_STATUS=$(screen -list | grep -oP '\d+\.\S+')
+
+if [ -z "$SCREEN_STATUS" ]; then
     SCREEN_STATUS="Tidak Aktif"
 else
     SCREEN_STATUS="Sesi aktif:\n$SCREEN_STATUS"
