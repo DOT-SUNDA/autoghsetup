@@ -21,14 +21,14 @@ else
     GITHUB_STATUS="Tidak Aktif"
 fi
 
-# Fungsi untuk cek status screen
+# Fungsi untuk cek status screen (hanya nama sesi)
 check_screen_status() {
-    SCREEN_STATUS=$(screen -list | grep -oP '\d+\.\S+')
+    SCREEN_STATUS=$(screen -list | grep -oP '\S+$') # Menampilkan hanya nama sesi screen
 
     if [ -z "$SCREEN_STATUS" ]; then
         SCREEN_STATUS="Tidak Aktif"
     else
-        SCREEN_STATUS="Sesi aktif:\n$SCREEN_STATUS"
+        SCREEN_STATUS="Sesi aktif: $SCREEN_STATUS"
     fi
 }
 
@@ -43,7 +43,7 @@ while true; do
     # Tampilan header
     clear
     echo -e "\033[1;32m=============================\033[0m"
-    echo -e "\033[1;32m   MENU GITHUB CLI BY DOTAJA  \033[0m"
+    echo -e "\033[1;32m  MENU GITHUB CLI BY DOTAJA \033[0m"
     echo -e "\033[1;32m=============================\033[0m"
     echo -e "\033[1;37mGithub Status    : \033[1;34m$GITHUB_STATUS\033[0m"
     echo -e "\033[1;37mScreen           : \033[1;34m$SCREEN_STATUS\033[0m"
